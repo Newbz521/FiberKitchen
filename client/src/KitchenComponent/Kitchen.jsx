@@ -73,7 +73,8 @@ const KitchenScene = (props) => {
       }
       meshRef.current.rotation.x = -0.5 * Math.PI;
       meshRef.current.position.y = -.5;
-      meshRef.current.recieveShadow = true;
+      meshRef.current.receiveShadow = true;
+      meshRef.current.castShadow = true;
     })
     return (
       <mesh ref={meshRef}>
@@ -92,7 +93,6 @@ const KitchenScene = (props) => {
       meshRef.current.rotation.y = -0.5 * Math.PI;
       meshRef.current.position.y = 4;
       meshRef.current.position.x = kitchenLength / 2 + .5;
-      meshRef.current.recieveShadow = true;
       meshRef.current.receiveShadow = true;
       meshRef.current.castShadow = true;
     })
@@ -132,6 +132,8 @@ const KitchenScene = (props) => {
       meshRef.current.position.y = 3.5;
       meshRef.current.position.z = -(kitchenDepth / 2) + 1.5;
       meshRef.current.position.x = (-kitchenLength / 2 - (1.8))
+      meshRef.current.castShadow = true;
+      meshRef.current.receiveShadow = true;
     })
     return (
       <mesh ref={meshRef}>
@@ -149,6 +151,8 @@ const KitchenScene = (props) => {
       meshRef.current.position.y = 4/2 + 2.5/2 + 1.6;
       meshRef.current.position.z = -(kitchenDepth / 2) + 3 + 3/24 ;
       meshRef.current.position.x = (-kitchenLength / 2 - (1.8) - 20 / 24);
+      meshRef.current.castShadow = true;
+      meshRef.current.receiveShadow = true;
     })
     return (
       <mesh ref={meshRef}>
@@ -167,6 +171,8 @@ const KitchenScene = (props) => {
       meshRef.current.position.y = 4/2 + 2.5/2 + 1.6;
       meshRef.current.position.z = -(kitchenDepth / 2) + 3 + 3/24 ;
       meshRef.current.position.x = (-kitchenLength / 2 - (1.8) + 20 / 24);
+      meshRef.current.castShadow = true;
+      meshRef.current.receiveShadow = true;
     })
     return (
       <mesh ref={meshRef}>
@@ -184,7 +190,9 @@ const KitchenScene = (props) => {
       }
       meshRef.current.position.y = 2.5/2 + 1/12;
       meshRef.current.position.z = -(kitchenDepth / 2) + 1.5 + 1.5 + 3/24 ;
-      meshRef.current.position.x = (-kitchenLength / 2 - (1.8) )
+      meshRef.current.position.x = (-kitchenLength / 2 - (1.8))
+      meshRef.current.castShadow = true;
+      meshRef.current.receiveShadow = true;
     })
     return (
       <mesh ref={meshRef}>
@@ -203,7 +211,7 @@ const KitchenScene = (props) => {
       oneRef.current.receiveShadow = true;
       oneRef.current.castShadow = true;
 
-      twoRef.current.position.z = -(kitchenDepth / 2) + 1.1;
+      twoRef.current.position.z = -(kitchenDepth / 2) + 1;
       twoRef.current.position.y = 1.5
       twoRef.current.receiveShadow = true;
       twoRef.current.castShadow = true;
@@ -211,15 +219,15 @@ const KitchenScene = (props) => {
     return (
       <>
       <group ref={oneRef} >
-        <mesh> 
+        <mesh receiveShadow castShadow ref={oneRef}> 
           <boxGeometry args={[kitchenLength, 1.5/12, 2.2]} /> 
-          <meshBasicMaterial map={marbleTexture} />
+          <meshStandardMaterial map={marbleTexture} />
         </mesh>
         </group>
         <group ref={twoRef} >
-        <mesh> 
+        <mesh receiveShadow castShadow ref={twoRef} > 
           <boxGeometry args={[ kitchenLength, 3, 2 ]} /> 
-          <meshBasicMaterial map={woodTexture} />
+          <meshStandardMaterial map={woodTexture} />
         </mesh>
         </group>
       </>
@@ -243,16 +251,16 @@ const KitchenScene = (props) => {
     })
     return (
       <>
-      <group ref={oneRef} >
-        <mesh> 
+      <group ref={oneRef} receiveShadow castShadow>
+        <mesh receiveShadow castShadow> 
           <boxGeometry args={[2.2, 1.5/12, kitchenDepth]} /> 
-          <meshBasicMaterial map={marbleTexture} />
+          <meshStandardMaterial map={marbleTexture} />
         </mesh>
       </group>
-              <group ref={twoRef} >
-              <mesh> 
+      <group ref={twoRef} receiveShadow castShadow>
+              <mesh receiveShadow castShadow> 
                 <boxGeometry args={[2, 3, kitchenDepth ]} /> 
-                <meshBasicMaterial map={woodTexture} />
+                <meshStandardMaterial map={woodTexture} />
               </mesh>
         </group>
         </>
@@ -285,21 +293,21 @@ const KitchenScene = (props) => {
     return (
       <>
       <group ref={oneRef} >
-        <mesh> 
-          <boxGeometry args={[ (kitchenLength - 2), 1.5/12, kitchenDepth /3 ]} /> 
-          <meshBasicMaterial map={marbleTexture} />
+        <mesh receiveShadow castShadow> 
+          <boxGeometry  args={[ (kitchenLength - 2), 1.5/12, kitchenDepth /3 ]} /> 
+          <meshStandardMaterial map={marbleTexture} />
         </mesh>
       </group>
         <group ref={twoRef} >
-        <mesh> 
+        <mesh receiveShadow castShadow> 
           <boxGeometry args={[1.5/12 , 3, kitchenDepth /3 ]} /> 
-          <meshBasicMaterial map={marbleTexture} />
+          <meshStandardMaterial map={marbleTexture} />
         </mesh>
         </group>
         <group ref={threeRef} >
-        <mesh> 
+        <mesh receiveShadow castShadow> 
           <boxGeometry args={[bottomLength, 3, kitchenDepth /3 - 1 ]} /> 
-          <meshBasicMaterial map={woodTexture} />
+          <meshStandardMaterial map={woodTexture} />
         </mesh>
         </group>
       </>
@@ -315,12 +323,12 @@ const KitchenScene = (props) => {
     })
     return (
       <group ref={groupRef} >
-        <mesh position={position} > 
-          <boxGeometry args={[data, 4, 1]} /> 
+        <mesh position={position} castShadow receiveShadow> 
+          <boxGeometry args={[data, 4, 1]} castShadow receiveShadow /> 
           <meshStandardMaterial map={verticalWoodTexture} />
         </mesh>
-        <mesh position={positionLeftDoor} > 
-          <boxGeometry args={[data - .2, 4, 1.5 / 12]} /> 
+        <mesh position={positionLeftDoor} castShadow receiveShadow >  
+          <boxGeometry args={[data - .2, 4, 1.5 / 12]} castShadow receiveShadow/> 
           <meshStandardMaterial map={verticalWoodTexture} />
         </mesh>
       </group>
@@ -335,12 +343,12 @@ const KitchenScene = (props) => {
           const position = lightRef.current.position
           targetRef.current.position.set(position.x, position.y - 1, position.z)
           lightRef.current.target = targetRef.current
-          lightRef.current.angle = .5
+          lightRef.current.angle = .9
         })
       
         return (
           <>
-            <spotLight ref={lightRef} position={[positions.number, 15, -kitchenDepth/2 + 4]} color="white" intensity={0.9}  penumbra={0.1} />
+            <spotLight castShadow ref={lightRef} position={[positions.number, 11, -kitchenDepth/2 + 4]} color={0xffffff} intensity={1}  penumbra={0.1} />
             <mesh ref={targetRef} position={[0, 0, 0]}>
               <sphereGeometry args={[0.1, 32, 32]} />
               <meshBasicMaterial color="white" />
@@ -356,12 +364,13 @@ const KitchenScene = (props) => {
           const position = lightRef.current.position
           targetRef.current.position.set(position.x, position.y - 1, position.z)
           lightRef.current.target = targetRef.current
-          lightRef.current.angle = .5
+          lightRef.current.angle = .7
+          lightRef.current.castShadow = true
         })
       
         return (
           <>
-            <spotLight ref={lightRef} position={[positions.number, 15, kitchenDepth/2 ]} color="white" intensity={0.9}  penumbra={0.1} />
+            <spotLight castShadow ref={lightRef} position={[positions.number, 11, kitchenDepth/2 + 4  ]} color={0xffffff} intensity={1} penumbra={0.1} />
             <mesh ref={targetRef} position={[0, 0, 0]}>
               <sphereGeometry args={[0.1, 32, 32]} />
               <meshBasicMaterial color="white" />
@@ -394,15 +403,15 @@ const KitchenScene = (props) => {
     })
     return (
       <>
-      <mesh ref={oneRef}>
+      <mesh castShadow receiveShadow ref={oneRef}>
         <boxGeometry args={[5, 9 / 12, 1.5]} />
         <meshMatcapMaterial matcap={stoveTexture} />
         </mesh>
-      <mesh ref={twoRef}>
+      <mesh castShadow receiveShadow ref={twoRef}>
         <cylinderGeometry args={[.5, 8 / 12, 2]} />
         <meshMatcapMaterial matcap={stoveTexture} />
         </mesh>
-      <mesh ref={threeRef}>
+      <mesh castShadow receiveShadow ref={threeRef}>
         <boxGeometry args={[5, 1.5 / 12, 1.5]} />
         <meshMatcapMaterial matcap={chromeTexture} />
       </mesh>
@@ -412,12 +421,12 @@ const KitchenScene = (props) => {
   }
   return (
     <div className="canvasContainer">
-    <Canvas  camera={{ position: [cam, 5.5, 15] }}>
+    <Canvas shadows camera={{ position: [cam, 5.5, 15], fov: 75 }}>
       <OrbitControls/>
       <KitchenFloor />
-      <ambientLight intensity={.3} />
-      <WallOne recieveShadow/>
-      <WallTwo recieveShadow/>
+      <ambientLight intensity={.5} />
+      <WallOne />
+      <WallTwo />
       <FridgeVolume />
       <FridgeLeftDoor />
       <FridgeRightDoor />
@@ -427,14 +436,14 @@ const KitchenScene = (props) => {
       )}
   
         {cabinets.map((data, index) => 
-          (<Lights number={(-kitchenLength / 2 + data / 2) + (index * data)} />)
+          (<Lights castShadow number={(-kitchenLength / 2 + data / 2) + (index * data)} />)
         )}
         {cabinets.map((data, index) => 
-          (<LightsTwo number={(-kitchenLength / 2 + data / 2) + (index * data)} />)
+          (<LightsTwo castShadow number={(-kitchenLength / 2 + data / 2) + (index * data)} />)
       )}
         <CounterTop />
         <CounterTopTwo />
-        <CounterTopThree />
+        <CounterTopThree receiveShadow />
         <Appliances/>
     </Canvas>
 
@@ -443,8 +452,8 @@ const KitchenScene = (props) => {
         <input id="length" type="range" min="9" max="15" defaultValue="6" onInput={getValue} />
         width
         <input id="depth" type="range" min="9" max="15" defaultValue="6" onInput={getDepth} /> 
-        <button id="front-camera" onClick={setFront}>Front Elevation</button>
-        <button id="iso-camera" onClick={setIso}>Isometric View</button>
+        {/* <button id="front-camera" onClick={setFront}>Front Elevation</button>
+        <button id="iso-camera" onClick={setIso}>Isometric View</button> */}
       </div>
     </div>
   );
