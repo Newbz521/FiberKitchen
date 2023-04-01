@@ -363,7 +363,7 @@ const KitchenScene = (props) => {
           <>
             <spotLight ref={lightRef} position={[positions.number, 15, kitchenDepth/2 ]} color="white" intensity={0.9}  penumbra={0.1} />
             <mesh ref={targetRef} position={[0, 0, 0]}>
-              <sphereBufferGeometry args={[0.1, 32, 32]} />
+              <sphereGeometry args={[0.1, 32, 32]} />
               <meshBasicMaterial color="white" />
             </mesh>
           </>
