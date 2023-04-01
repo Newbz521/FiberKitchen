@@ -1,0 +1,37 @@
+.canvasContainer{
+
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  /* border: 5px solid red; */
+  justify-content: center;
+  align-items: center;
+  overflow-y: none;
+  overflow-x: none;
+}
+
+.edit-container{
+  display: flex;
+  left: 0;
+  bottom: 0;
+  position:absolute;
+  height: 20vh;
+  width: 100vw;
+  border:1px solid red;
+  overflow-y: none;
+  overflow-x: none;
+  z-index: 2;
+  justify-content: center;
+  background-color: white;
+  align-items: center;
+}
+
+.three-js{
+  /* border: 3px solid rgb(208, 248, 250); */
+  overflow-y: none;
+  overflow-x: none;
+}
+button{
+  height: 20%;
+}
