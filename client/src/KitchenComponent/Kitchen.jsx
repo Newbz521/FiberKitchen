@@ -66,6 +66,7 @@ const KitchenScene = (props) => {
 
   function KitchenFloor() {
     const meshRef = useRef(null);
+    
     useFrame(() => {
       if (!meshRef.current) {
         return;
@@ -376,8 +377,7 @@ const KitchenScene = (props) => {
 
     useFrame(() => {
       oneRef.current.position.x =  kitchenLength/2 - (bottomLength/2 + 2) 
-      oneRef.current.position.z = kitchenDepth / 2 - kitchenDepth
-        / 6 - .75 
+      oneRef.current.position.z = kitchenDepth / 2 - kitchenDepth / 6 - .75 
       oneRef.current.position.y = 6
       oneRef.current.receiveShadow = true
       oneRef.current.castShadow = true
