@@ -32,7 +32,7 @@ const KitchenScene = (props) => {
   const [toggle, setToggle] = useState(true)
   const [wired, setWired] = useState(false)
   const [staticIso, setStaticIso] = useState(false)
-  const [cam, setCam] = useState(-15)
+  const [cam, setCam] = useState(-13)
   const loader = new TextureLoader();
   const chromeTexture = loader.load(Chrome)
   const verticalWoodTexture = loader.load(cabinetMaterial)
@@ -460,7 +460,7 @@ const KitchenScene = (props) => {
   }
   return (
     <div className="canvasContainer">
-    <Canvas shadows camera={{ position: [cam, 5.5, 15], fov: 75 }}>
+    <Canvas className="canvas" shadows camera={{ position: [cam, 6, 15], fov: 75 }}>
       <OrbitControls/>
       <KitchenFloor />
       <ambientLight intensity={.5} />
@@ -488,10 +488,12 @@ const KitchenScene = (props) => {
       <div className="menu-button" onClick={handleShow}></div>
       <div className="edit-container" style={slideIn}>
         <div className="upper-wrap">
-
-        Length
+          box
+        </div>
+        <div className="upper-wrap">
+        Length: {kitchenLength} ft.
         <input id="length" type="range" min="9" max="15" defaultValue="6" onInput={getValue} />
-        Depth
+        Depth: {kitchenDepth} ft.
         <input id="depth" type="range" min="9" max="15" defaultValue="6" onInput={getDepth} /> 
         </div>
         <div className="upper-wrap">   
