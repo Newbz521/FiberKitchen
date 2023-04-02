@@ -488,7 +488,7 @@ const KitchenScene = (props) => {
       <div className="menu-button" onClick={handleShow}></div>
       <div className="edit-container" style={slideIn}>
         <div className="upper-wrap">
-          box
+          <div className="dimensions"></div>
         </div>
         <div className="upper-wrap">
         Length: {kitchenLength} ft.

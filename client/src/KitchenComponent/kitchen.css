@@ -36,15 +36,16 @@
   left: 0;
   position:absolute;
   height: 100vh;
-  width: 40vw;
+  width: 50vw;
   overflow-y: none;
   overflow-x: none;
   z-index: 2;
-  justify-content: center;
   background-color: rgba(255, 255, 255, 0.839);
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   transition: all .5s;
+  gap: 3vh;
   z-index: 3;
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0,0,0,0.3) 0 1px 3px;
@@ -53,7 +54,15 @@
 }
 
 
-
+.dimensions{
+  display: flex;
+  height: 30vh;
+  width: 20vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('https://rtaproducts.s3.amazonaws.com/goldenhome/GHLWW2442.png');
+}
 .material-box{
   height: 75px;
   width: 75px;
@@ -66,9 +75,8 @@
   /* border: 1px solid blue; */
   flex-direction: column;
   height: fit-content;
-  margin-bottom: 10%;
+  /* margin-bottom: 10%; */
   width: 95%;
-  padding-bottom: 5px;
   padding-top: 5px;
   border-radius: 10px;
   background-color: rgb(247, 243, 238);
@@ -86,8 +94,6 @@
   align-items: center;
   gap: 10px;
   flex-wrap: nowrap;
-  /* margin: 50px; */
-  /* border: 1px solid blue; */
 }
 
 @media only screen and (max-width: 480px){
