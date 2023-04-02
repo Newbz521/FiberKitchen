@@ -17,7 +17,8 @@ import CherryWood from "./materials/Spicy-Cherry.jpeg"
 import LK55HLong from "./materials/lk55-h-Long.png"
 import WhiteWoodLong from "./materials/White-Wood-Long.jpeg"
 import CherryWoodLong from "./materials/Spicy-Cherry-Long.jpeg"
-
+import DarkMarble from "./materials/dark-marble.jpeg"
+import MarbleTwo from "./materials/marble-2.jpeg"
 import "./kitchen.css"
 
 const KitchenScene = (props) => {
@@ -41,7 +42,19 @@ const KitchenScene = (props) => {
   let bottomLength =  (kitchenLength - 2) - 1.5/12
   const materials = [{name:"LK55", value: LK55H},{name:"Oak Wood", value: WengeVertical},{name:"Spicy Cherry", value: CherryWood}, {name:"White Wood", value: WhiteWood}];
   const bottomMaterials = [{name:"LK55", value: LK55HLong},{name:"Oak Wood", value: Wenge},{name:"Spicy Cherry", value: CherryWoodLong}, {name:"White Wood", value: WhiteWoodLong}];
-
+  const marbleMaterials = [{name:"Dark Marble", value: DarkMarble},{name:"White Marble", value: Marble},{name:"Marble-2", value: MarbleTwo}];
+  const [slideIn, setSlideIn] = useState({ transform: "translate(-60vw, 0%)" });
+  const [toggler, setToggler] = useState(false);
+  
+  function handleShow() {
+    if (toggler == true) {
+      // setShow("");
+      setSlideIn({ transform: "translate(-60vw, 0%)" });
+    } else {
+      setSlideIn({ transform: "translate(0%, 0%)" });
+    }
+    setToggler((prevCheck) => !prevCheck);
+  }
 
 
   function divideLength(length, minSectionLength, maxSectionLength) {
@@ -440,6 +453,11 @@ const KitchenScene = (props) => {
     console.log(e.target.dataset.value)
     setTableBottomMaterial(e.target.dataset.value)
   }
+
+  function selectMarble(e) {
+    console.log(e.target.dataset.value)
+    setTableMaterial(e.target.dataset.value)
+  }
   return (
     <div className="canvasContainer">
     <Canvas shadows camera={{ position: [cam, 5.5, 15], fov: 75 }}>
@@ -467,30 +485,47 @@ const KitchenScene = (props) => {
         <CounterTopThree receiveShadow />
         <Appliances/>
     </Canvas>
+      <div className="menu-button" onClick={handleShow}></div>
+      <div className="edit-container" style={slideIn}>
+        <div className="upper-wrap">
 
-      <div className="edit-container">
-        length
+        Length
         <input id="length" type="range" min="9" max="15" defaultValue="6" onInput={getValue} />
-        width
+        Depth
         <input id="depth" type="range" min="9" max="15" defaultValue="6" onInput={getDepth} /> 
-        Upper Material
-        <div className="upper-select">
-        {materials.map((data) => (
-          <div className="material-box" data-value={data.value} onClick={selectCabinet} style={{ 
-            backgroundImage: `url(${data.value})` 
-          }}></div>
-        ))}
         </div>
-        Lower Material
-        <div className="lower-select">
-          {bottomMaterials.map((data) => (
-          <div className="material-box" data-value={data.value} onClick={selectBottom} style={{ 
-            backgroundImage: `url(${data.value})` 
-          }}></div>
-        ))}
+        <div className="upper-wrap">   
+            UP - Mat
+            <div className="upper-select">
+            {materials.map((data) => (
+              <div className="material-box" data-value={data.value} onClick={selectCabinet} style={{ 
+                backgroundImage: `url(${data.value})` 
+              }}></div>
+            ))}
+            </div>
         </div>
-        {/* <button id="front-camera" onClick={setFront}>Front Elevation</button>
-        <button id="iso-camera" onClick={setIso}>Isometric View</button> */}
+      
+        <div className="lower-wrap">
+            LOW-MAT
+            <div className="lower-select">
+              {bottomMaterials.map((data) => (
+              <div className="material-box" data-value={data.value} onClick={selectBottom} style={{ 
+                backgroundImage: `url(${data.value})` 
+              }}></div>
+            ))}
+            </div>
+        </div>
+        <div className="lower-wrap">
+            MARBLE-MAT
+            <div className="lower-select">
+              {marbleMaterials.map((data) => (
+              <div className="material-box" data-value={data.value} onClick={selectMarble} style={{ 
+                backgroundImage: `url(${data.value})` 
+              }}></div>
+            ))}
+            </div>
+        </div>
+      
       </div>
     </div>
   );
