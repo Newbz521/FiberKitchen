@@ -14,10 +14,9 @@
 .edit-container{
   display: flex;
   left: 0;
-  bottom: 0;
   position:absolute;
-  height: 20vh;
-  width: 100vw;
+  height: 100vh;
+  width: 40vw;
   border:1px solid red;
   overflow-y: none;
   overflow-x: none;
@@ -25,6 +24,7 @@
   justify-content: center;
   background-color: white;
   align-items: center;
+  flex-direction: column;
 }
 
 .three-js{
@@ -34,4 +34,23 @@
 }
 button{
   height: 20%;
+}
+
+.material-box{
+  height: 75px;
+  width: 75px;
+  background-size: cover;
+}
+
+.upper-select, .lower-select{
+  display: flex;
+  width: 90%;
+  height: fit-content;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 50px;
+  border: 1px solid blue;
 }

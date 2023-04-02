@@ -3,12 +3,20 @@ import { useEffect, useState, useRef } from "react";
 import { Canvas, useFrame, useThree, PerspectiveCamera} from "@react-three/fiber"
 import Chrome from "./materials/chrome.jpeg"
 import WengeVertical from "./materials/WengeVertical.jpeg"
-import Wenge from "./materials/Wenge.jpeg"
+import LightWoodVertical from "./materials/light-wood-vertical.jpeg"
 import Marble from "./materials/streaked-marble.png"
 import lightChrome from "./materials/lightChrome.jpeg"
 import { Mesh, TextureLoader } from "three"
 import Spotlight from "./spotlight";
-import {Stats, OrbitControls} from "@react-three/drei"
+import { Stats, OrbitControls } from "@react-three/drei"
+import SelectSearch from 'react-select-search'
+import Wenge from "./materials/Wenge.jpeg"
+import LK55H from "./materials/lk55-h.png"
+import WhiteWood from "./materials/White-Wood.jpeg"
+import CherryWood from "./materials/Spicy-Cherry.jpeg"
+import LK55HLong from "./materials/lk55-h-Long.png"
+import WhiteWoodLong from "./materials/White-Wood-Long.jpeg"
+import CherryWoodLong from "./materials/Spicy-Cherry-Long.jpeg"
 
 import "./kitchen.css"
 
@@ -31,7 +39,11 @@ const KitchenScene = (props) => {
   const woodTexture = loader.load(tableBottomMaterial)
   const stoveTexture = loader.load(stoveMaterial)
   let bottomLength =  (kitchenLength - 2) - 1.5/12
-  
+  const materials = [{name:"LK55", value: LK55H},{name:"Oak Wood", value: WengeVertical},{name:"Spicy Cherry", value: CherryWood}, {name:"White Wood", value: WhiteWood}];
+  const bottomMaterials = [{name:"LK55", value: LK55HLong},{name:"Oak Wood", value: Wenge},{name:"Spicy Cherry", value: CherryWoodLong}, {name:"White Wood", value: WhiteWoodLong}];
+
+
+
   function divideLength(length, minSectionLength, maxSectionLength) {
     const numSections = Math.ceil(length / maxSectionLength);
     const sectionLength = Math.max(Math.min(length / numSections, maxSectionLength), minSectionLength);
@@ -419,6 +431,15 @@ const KitchenScene = (props) => {
       </>
     )
   }
+
+  function selectCabinet(e) {
+    console.log(e.target.dataset.value)
+    setCabinetMaterial(e.target.dataset.value)
+  }
+  function selectBottom(e) {
+    console.log(e.target.dataset.value)
+    setTableBottomMaterial(e.target.dataset.value)
+  }
   return (
     <div className="canvasContainer">
     <Canvas shadows camera={{ position: [cam, 5.5, 15], fov: 75 }}>
@@ -452,6 +473,22 @@ const KitchenScene = (props) => {
         <input id="length" type="range" min="9" max="15" defaultValue="6" onInput={getValue} />
         width
         <input id="depth" type="range" min="9" max="15" defaultValue="6" onInput={getDepth} /> 
+        Upper Material
+        <div className="upper-select">
+        {materials.map((data) => (
+          <div className="material-box" data-value={data.value} onClick={selectCabinet} style={{ 
+            backgroundImage: `url(${data.value})` 
+          }}></div>
+        ))}
+        </div>
+        Lower Material
+        <div className="lower-select">
+          {bottomMaterials.map((data) => (
+          <div className="material-box" data-value={data.value} onClick={selectBottom} style={{ 
+            backgroundImage: `url(${data.value})` 
+          }}></div>
+        ))}
+        </div>
         {/* <button id="front-camera" onClick={setFront}>Front Elevation</button>
         <button id="iso-camera" onClick={setIso}>Isometric View</button> */}
       </div>
