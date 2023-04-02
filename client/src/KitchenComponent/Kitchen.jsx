@@ -328,7 +328,7 @@ const KitchenScene = (props) => {
           <meshStandardMaterial map={verticalWoodTexture} />
         </mesh>
         <mesh position={positionLeftDoor} castShadow receiveShadow >  
-          <boxGeometry args={[data - .2, 4, 1.5 / 12]} castShadow receiveShadow/> 
+          <boxGeometry args={[data - .1, 4, 1.5 / 12]} castShadow receiveShadow/> 
           <meshStandardMaterial map={verticalWoodTexture} />
         </mesh>
       </group>
