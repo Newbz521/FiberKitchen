@@ -45,6 +45,17 @@ const KitchenScene = (props) => {
   const marbleMaterials = [{name:"Dark Marble", value: DarkMarble},{name:"White Marble", value: Marble},{name:"Marble-2", value: MarbleTwo}];
   const [slideIn, setSlideIn] = useState({ transform: "translate(-60vw, 0%)" });
   const [toggler, setToggler] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [currentDisplay, setCurrentDisplay] = useState(null)
+  const [showModal, setShowModal] = useState({ display: "none" })
+  const [modalCam, setModalCam] = useState(0);
+  const [description, setDescription] = useState(null)
+  const [furniture, setFurniture] = useState(null)
+  
+
+useEffect(() => {
+  document.body.style.cursor = hovered ? 'pointer' : 'auto'
+}, [hovered])
   
   function handleShow() {
     if (toggler == true) {
@@ -149,83 +160,65 @@ const KitchenScene = (props) => {
   }
 
   function FridgeVolume() {
-    const meshRef = useRef(null);
+    const volumeRef = useRef(null);
+    const leftRef = useRef(null);
+    const rightRef = useRef(null);
+    const bottomRef = useRef(null);
+    let isWired = false;
     useFrame(() => {
-      if (!meshRef.current) {
-        return;
-      }
-      meshRef.current.position.y = 3.5;
-      meshRef.current.position.z = -(kitchenDepth / 2) + 1.5;
-      meshRef.current.position.x = (-kitchenLength / 2 - (1.8))
-      meshRef.current.castShadow = true;
-      meshRef.current.receiveShadow = true;
+      volumeRef.current.position.y = 3.5;
+      volumeRef.current.position.z = -(kitchenDepth / 2) + 1.5;
+      volumeRef.current.position.x = (-kitchenLength / 2 - (1.8))
+      volumeRef.current.castShadow = true;
+      volumeRef.current.receiveShadow = true;
+      volumeRef.current.material.wireframe = isWired;
+
+      leftRef.current.position.y = 4/2 + 2.5/2 + 1.6;
+      leftRef.current.position.z = -(kitchenDepth / 2) + 3 + 3/24 ;
+      leftRef.current.position.x = (-kitchenLength / 2 - (1.8) - 20 / 24);
+      leftRef.current.castShadow = true;
+      leftRef.current.receiveShadow = true;
+      leftRef.current.material.wireframe = isWired;
+
+      rightRef.current.position.y = 4/2 + 2.5/2 + 1.6;
+      rightRef.current.position.z = -(kitchenDepth / 2) + 3 + 3/24 ;
+      rightRef.current.position.x = (-kitchenLength / 2 - (1.8) + 20 / 24);
+      rightRef.current.castShadow = true;
+      rightRef.current.receiveShadow = true;
+      rightRef.current.material.wireframe = isWired;
+
+      bottomRef.current.position.y = 2.5/2 + 1/12;
+      bottomRef.current.position.z = -(kitchenDepth / 2) + 1.5 + 1.5 + 3/24 ;
+      bottomRef.current.position.x = (-kitchenLength / 2 - (1.8))
+      bottomRef.current.castShadow = true;
+      bottomRef.current.receiveShadow = true;
+      bottomRef.current.material.wireframe = isWired;
+
     })
     return (
-      <mesh ref={meshRef}>
+      <>
+      <mesh ref={volumeRef} onPointerOver={() => { setHovered(true); setWired(true); isWired = true }}
+          onPointerOut={() => { setHovered(false); setWired(false); isWired = false }}
+        >
         <boxGeometry args={[40/ 12, 7, 3]} />
         <meshMatcapMaterial matcap={chromeTexture} />
-      </mesh>
-    )
-  }
-  function FridgeLeftDoor() {
-    const meshRef = useRef(null);
-    useFrame(() => {
-      if (!meshRef.current) {
-        return;
-      }
-      meshRef.current.position.y = 4/2 + 2.5/2 + 1.6;
-      meshRef.current.position.z = -(kitchenDepth / 2) + 3 + 3/24 ;
-      meshRef.current.position.x = (-kitchenLength / 2 - (1.8) - 20 / 24);
-      meshRef.current.castShadow = true;
-      meshRef.current.receiveShadow = true;
-    })
-    return (
-      <mesh ref={meshRef}>
+        </mesh>
+        <mesh ref={leftRef}>
         <boxGeometry args={[19/ 12, 4.3, 3/12]} />
         <meshMatcapMaterial matcap={chromeTexture} />
-      </mesh>
-    )
-  }
-
-  function FridgeRightDoor() {
-    const meshRef = useRef(null);
-    useFrame(() => {
-      if (!meshRef.current) {
-        return;
-      }
-      meshRef.current.position.y = 4/2 + 2.5/2 + 1.6;
-      meshRef.current.position.z = -(kitchenDepth / 2) + 3 + 3/24 ;
-      meshRef.current.position.x = (-kitchenLength / 2 - (1.8) + 20 / 24);
-      meshRef.current.castShadow = true;
-      meshRef.current.receiveShadow = true;
-    })
-    return (
-      <mesh ref={meshRef}>
+        </mesh>
+        <mesh ref={rightRef}>
         <boxGeometry args={[19/ 12, 4.3, 3/12]} />
         <meshMatcapMaterial matcap={chromeTexture} />
-      </mesh>
-    )
-  }
-
-  function FridgeBottomDoor() {
-    const meshRef = useRef(null);
-    useFrame(() => {
-      if (!meshRef.current) {
-        return;
-      }
-      meshRef.current.position.y = 2.5/2 + 1/12;
-      meshRef.current.position.z = -(kitchenDepth / 2) + 1.5 + 1.5 + 3/24 ;
-      meshRef.current.position.x = (-kitchenLength / 2 - (1.8))
-      meshRef.current.castShadow = true;
-      meshRef.current.receiveShadow = true;
-    })
-    return (
-      <mesh ref={meshRef}>
+        </mesh>
+        <mesh ref={bottomRef}>
         <boxGeometry args={[39/ 12, 2.5, 3/12]} />
         <meshMatcapMaterial matcap={chromeTexture} />
       </mesh>
+      </>
     )
   }
+
 
   function CounterTop() {
     const oneRef = useRef(null)
@@ -340,23 +333,39 @@ const KitchenScene = (props) => {
 }
 
 
-  function CabinetEach({position,data, positionLeftDoor}) {
+  function CabinetEach({ position, data, positionLeftDoor }) {
     
     const groupRef = useRef(null)
-    useFrame(() => { 
-
+    const cabRef = useRef(null)
+    const doorRef = useRef(null)
+    let isWired = false
+    useFrame(() => {
+      cabRef.current.material.wireframe = isWired;
+      doorRef.current.material.wireframe = isWired;
     })
     return (
-      <group ref={groupRef} >
-        <mesh position={position} castShadow receiveShadow> 
+      <>
+        <mesh ref={cabRef} onClick={() => {
+          setFurniture("Cabinet");
+          setDescription(`
+            Depth: 1 feet 
+            Width: ${cabinets[0]} feet 
+            Height: 4 feet
+            `);
+          setModalCam(0);
+          setCurrentDisplay(
+            <CabinetEach data={cabinets[0]} data-value={cabinets[0]} positionLeftDoor={[0, 0, (.5 + 1.5 / 24)]} />
+          ); setShowModal({ display: "flex" })
+        }} position={position} onPointerOver={() => { setHovered(true); setWired(true); isWired = true }}
+          onPointerOut={() => { setHovered(false); setWired(false); isWired = false }}  castShadow receiveShadow>   
           <boxGeometry args={[data, 4, 1]} castShadow receiveShadow /> 
-          <meshStandardMaterial map={verticalWoodTexture} />
+          <meshStandardMaterial  wireframeLinewidth={0.5} map={verticalWoodTexture} />
         </mesh>
-        <mesh position={positionLeftDoor} castShadow receiveShadow >  
+        <mesh ref={doorRef} position={positionLeftDoor} castShadow receiveShadow >  
           <boxGeometry args={[data - .1, 4, 1.5 / 12]} castShadow receiveShadow/> 
-          <meshStandardMaterial map={verticalWoodTexture} />
+          <meshStandardMaterial wireframeLinewidth={0.5} map={verticalWoodTexture}  />
         </mesh>
-      </group>
+      </>
     )
     }
 
@@ -404,39 +413,46 @@ const KitchenScene = (props) => {
         )
       }
   
-  function Appliances() {
+  function Appliances({x1,x2,x3,y1,y2,y3,z1,z2,z3}) {
     const oneRef = useRef(null)
     const twoRef = useRef(null)
     const threeRef = useRef(null)
-
+    let isWired = false
     useFrame(() => {
-      oneRef.current.position.x =  kitchenLength/2 - (bottomLength/2 + 2) 
-      oneRef.current.position.z = kitchenDepth / 2 - kitchenDepth / 6 - .75 
-      oneRef.current.position.y = 6
+      oneRef.current.position.x =   x1
+      oneRef.current.position.y =  y1
+      oneRef.current.position.z = z1
       oneRef.current.receiveShadow = true
       oneRef.current.castShadow = true
+      oneRef.current.material.wireframe = isWired;
 
-      twoRef.current.position.x =  kitchenLength/2 - (bottomLength/2 + 2) 
-      twoRef.current.position.z = kitchenDepth / 2 - kitchenDepth / 6 - .75 
-      twoRef.current.position.y = 7.2
+      twoRef.current.position.x =  x2
+      twoRef.current.position.y = y2
+      twoRef.current.position.z =  z2
       twoRef.current.receiveShadow = true
       twoRef.current.castShadow = true
+      twoRef.current.material.wireframe = isWired;
 
-      threeRef.current.position.x =  kitchenLength/2 - (bottomLength/2 + 2) 
-      threeRef.current.position.z = kitchenDepth / 2 - kitchenDepth / 6 - .75 
-      threeRef.current.position.y = 3 + 3/24
+      threeRef.current.position.x =   x3
+      threeRef.current.position.y =  y3
+      threeRef.current.position.z = z3
+      threeRef.current.material.wireframe = isWired;
     })
+
     return (
       <>
-      <mesh castShadow receiveShadow ref={oneRef}>
+        <mesh castShadow receiveShadow ref={oneRef} onClick={() => { setModalCam(3); setCurrentDisplay(<Appliances x1={0} y1={6 - (3 + 3 / 24)} z1={0} x2={0} y2={7.2 - (3 + 3 / 24)} z2={0} x3={0} y3={0} z3={0} />); setShowModal({ display: "flex"})}} onPointerOver={() => { setHovered(true); setWired(true); isWired = true }}
+          onPointerOut={() => { setHovered(false); setWired(false); isWired = false }}  >
         <boxGeometry args={[5, 9 / 12, 1.5]} />
         <meshMatcapMaterial matcap={stoveTexture} />
         </mesh>
-      <mesh castShadow receiveShadow ref={twoRef}>
+      <mesh castShadow receiveShadow ref={twoRef} onPointerOver={() => { setHovered(true); setWired(true); isWired = true }}
+          onPointerOut={() => { setHovered(false); setWired(false); isWired = false }} >
         <cylinderGeometry args={[.5, 8 / 12, 2]} />
         <meshMatcapMaterial matcap={stoveTexture} />
         </mesh>
-      <mesh castShadow receiveShadow ref={threeRef}>
+      <mesh castShadow receiveShadow ref={threeRef} onPointerOver={() => { setHovered(true); setWired(true); isWired = true }}
+          onPointerOut={() => { setHovered(false); setWired(false); isWired = false }} >
         <boxGeometry args={[5, 1.5 / 12, 1.5]} />
         <meshMatcapMaterial matcap={chromeTexture} />
       </mesh>
@@ -460,18 +476,18 @@ const KitchenScene = (props) => {
   }
   return (
     <div className="canvasContainer">
-    <Canvas className="canvas" shadows camera={{ position: [cam, 6, 15], fov: 75 }}>
-      <OrbitControls/>
+    <Canvas  shadows camera={{ position: [cam, 6, 15], fov: 75 }}>
+      {/* <OrbitControls/> */}
       <KitchenFloor />
       <ambientLight intensity={.5} />
       <WallOne />
       <WallTwo />
       <FridgeVolume />
-      <FridgeLeftDoor />
+      {/* <FridgeLeftDoor />
       <FridgeRightDoor />
-      <FridgeBottomDoor />
+      <FridgeBottomDoor /> */}
       {cabinets.map((data, index) => 
-        (<CabinetEach data={data} position={[(-kitchenLength / 2 + data / 2) + (index * data), 4.5 + (2), -(kitchenDepth / 2) + .5]} positionLeftDoor={[(-kitchenLength / 2 + data / 2) + (index * data),4.5 + (2),-(kitchenDepth / 2) + 1.07]} />)
+        (<CabinetEach data={data} data-value={data} position={[(-kitchenLength / 2 + data / 2) + (index * data), 4.5 + (2), -(kitchenDepth / 2) + .5]} positionLeftDoor={[(-kitchenLength / 2 + data / 2) + (index * data),4.5 + (2),-(kitchenDepth / 2) + 1.07]} />)
       )}
   
         {cabinets.map((data, index) => 
@@ -480,16 +496,32 @@ const KitchenScene = (props) => {
         {cabinets.map((data, index) => 
           (<LightsTwo castShadow number={(-kitchenLength / 2 + data / 2) + (index * data)} />)
       )}
-        <CounterTop />
-        <CounterTopTwo />
+        <CounterTop receiveShadow/>
+        <CounterTopTwo receiveShadow/>
         <CounterTopThree receiveShadow />
-        <Appliances/>
-    </Canvas>
+        <Appliances x1={kitchenLength/2 - (bottomLength/2 + 2)} y1={6} z1={kitchenDepth / 2 - kitchenDepth / 6 - .75 } x2={kitchenLength/2 - (bottomLength/2 + 2)} y2={7.2} z2={kitchenDepth / 2 - kitchenDepth / 6 - .75} x3={kitchenLength/2 - (bottomLength/2 + 2)} y3={3 + 3/24} z3={kitchenDepth / 2 - kitchenDepth / 6 - .75}/>
+      </Canvas>
+      <div className="modal-background" style={showModal} onClick={() => setShowModal({ display: "none" })}></div>
+      <div className="modal-container" style={showModal} >
+      <div className="modal" >
+        <Canvas shadows camera={{ position:[-6,3,6], fov: 75 }}>
+            {currentDisplay}
+            <ambientLight intensity={5} />
+            <OrbitControls/>
+        </Canvas>
+        </div>
+        <div className="modal-description">
+          <div>
+          {furniture}
+          </div>
+          <div>
+          {description}
+          </div>
+        </div>
+      </div>
       <div className="menu-button" onClick={handleShow}></div>
       <div className="edit-container" style={slideIn}>
-        <div className="upper-wrap">
-          <div className="dimensions"></div>
-        </div>
+      
         <div className="upper-wrap">
         Length: {kitchenLength} ft.
         <input id="length" type="range" min="9" max="15" defaultValue="6" onInput={getValue} />
