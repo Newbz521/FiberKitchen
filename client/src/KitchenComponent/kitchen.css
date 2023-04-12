@@ -53,16 +53,6 @@
   overflow-y: scroll;
 }
 
-
-.dimensions{
-  display: flex;
-  height: 30vh;
-  width: 20vh;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url('https://rtaproducts.s3.amazonaws.com/goldenhome/GHLWW2442.png');
-}
 .material-box{
   height: 75px;
   width: 75px;
