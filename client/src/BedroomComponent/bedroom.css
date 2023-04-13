@@ -1,0 +1,11 @@
+.map-wrap{
+  display: grid;
+  width: 40vw;
+  height: 40vw;
+  /* border: 5px solid blue; */
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+}
+.floor-plan{
+  border: 5px solid black;
+}

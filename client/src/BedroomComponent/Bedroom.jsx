@@ -11,40 +11,18 @@ import Spotlight from "./spotlight";
 import { Stats, OrbitControls } from "@react-three/drei"
 import SelectSearch from 'react-select-search'
 import {Union, Subtract} from 'modeler-csg'
-// import Wenge from "./materials/Wenge.jpeg"
-// import LK55H from "./materials/lk55-h.png"
-// import WhiteWood from "./materials/White-Wood.jpeg"
-// import CherryWood from "./materials/Spicy-Cherry.jpeg"
-// import LK55HLong from "./materials/lk55-h-Long.png"
-// import WhiteWoodLong from "./materials/White-Wood-Long.jpeg"
-// import CherryWoodLong from "./materials/Spicy-Cherry-Long.jpeg"
-// import DarkMarble from "./materials/dark-marble.jpeg"
-// import MarbleTwo from "./materials/marble-2.jpeg"
-import "./kitchen.css"
-const { Model } = require("modeler-csg");
+import "./bedroom.css"
+
 
 const Bedroom = (props) => {
-  const [kitchenLength, setKitchenLength] = useState(12);
-  const [kitchenDepth, setKitchenDepth] = useState(12);
-  const [cabinets, setCabinets] = useState([3, 3, 3,3]);
-  // const [cabinetMaterial, setCabinetMaterial] = useState(WengeVertical)
-  // const [tableMaterial, setTableMaterial] = useState(Marble)
-  // const [tableBottomMaterial, setTableBottomMaterial] = useState(Wenge)
-  // const [stoveMaterial, setStoveMaterial] = useState(lightChrome)
+  const [kitchenLength, setKitchenLength] = useState(10);
+  const [kitchenDepth, setKitchenDepth] = useState(10);
+  const [cabinets, setCabinets] = useState([3.3, 3.3, 3.3]);
   const [toggle, setToggle] = useState(true)
   const [wired, setWired] = useState(false)
   const [staticIso, setStaticIso] = useState(false)
   const [cam, setCam] = useState(-13)
-  const loader = new TextureLoader();
-  // const chromeTexture = loader.load(Chrome)
-  // const verticalWoodTexture = loader.load(cabinetMaterial)
-  // const marbleTexture = loader.load(tableMaterial)
-  // const woodTexture = loader.load(tableBottomMaterial)
-  // const stoveTexture = loader.load(stoveMaterial)
   let bottomLength =  (kitchenLength - 2) - 1.5/12
-  // const materials = [{name:"LK55", value: LK55H},{name:"Oak Wood", value: WengeVertical},{name:"Spicy Cherry", value: CherryWood}, {name:"White Wood", value: WhiteWood}];
-  // const bottomMaterials = [{name:"LK55", value: LK55HLong},{name:"Oak Wood", value: Wenge},{name:"Spicy Cherry", value: CherryWoodLong}, {name:"White Wood", value: WhiteWoodLong}];
-  // const marbleMaterials = [{name:"Dark Marble", value: DarkMarble},{name:"White Marble", value: Marble},{name:"Marble-2", value: MarbleTwo}];
   const [slideIn, setSlideIn] = useState({ transform: "translate(-60vw, 0%)" });
   const [toggler, setToggler] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -53,7 +31,11 @@ const Bedroom = (props) => {
   const [modalCam, setModalCam] = useState(0);
   const [description, setDescription] = useState(null)
   const [furniture, setFurniture] = useState(null)
-  
+  const [floorLength, setFloorLength] = useState(15)
+  const [floorDepth, setFloorDepth] = useState(15)
+  const [floorLengthStart, setFloorLengthStart] = useState(5)
+  const [floorDepthStart, setFloorDepthStart] = useState(5)
+
 
 useEffect(() => {
   document.body.style.cursor = hovered ? 'pointer' : 'auto'
@@ -83,15 +65,21 @@ useEffect(() => {
     return result;
   }
 
+
   function getValue(e) {
     let currentValue = divideLength(e.target.value, 1, 3)
     setKitchenLength(e.target.value)
     setCabinets(currentValue)
-    console.log(kitchenLength , cabinets)
+    
+    setFloorLength(parseInt(e.target.value / 2) + 11)
+    setFloorLengthStart(11 - parseInt(e.target.value / 2) )
+    // console.log(kitchenLength , cabinets)
   }
   function getDepth(e) {
     let currentValue = divideLength(e.target.value, 1, 3)
     setKitchenDepth(e.target.value)
+    setFloorDepth(parseInt(e.target.value / 2) + 11)
+    setFloorDepthStart(11 - parseInt(e.target.value / 2) )
   }
 
   function setIso() {
@@ -289,50 +277,20 @@ useEffect(() => {
       </div>
       <div className="menu-button" onClick={handleShow}></div>
       <div className="edit-container" style={slideIn}>
+        <div className="map-wrap">
+          <div className="floor-plan" style={{
+    gridColumnStart: floorLengthStart,
+    gridColumnEnd: floorLength,
+    gridRowStart: floorDepthStart,
+    gridRowEnd: floorDepth
+  }}></div>
+        </div>
       <div className="upper-wrap">
         Length: {kitchenLength} ft.
-        <input id="length" type="range" min="12" max="20" defaultValue="6" onInput={getValue} />
+        <input id="length" step="2" type="range" min="10" max="20" defaultValue="6" onInput={getValue} />
         Depth: {kitchenDepth} ft.
-        <input id="depth" type="range" min="12" max="20" defaultValue="6" onInput={getDepth} /> 
+        <input id="depth" step="2" type="range" min="10" max="20" defaultValue="6" onInput={getDepth} /> 
         </div>
-        {/* <div className="upper-wrap">
-        Length: {kitchenLength} ft.
-        <input id="length" type="range" min="9" max="15" defaultValue="6" onInput={getValue} />
-        Depth: {kitchenDepth} ft.
-        <input id="depth" type="range" min="9" max="15" defaultValue="6" onInput={getDepth} /> 
-        </div>
-        <div className="upper-wrap">   
-            UP - Mat
-            <div className="upper-select">
-            {materials.map((data) => (
-              <div className="material-box" data-value={data.value} onClick={selectCabinet} style={{ 
-                backgroundImage: `url(${data.value})` 
-              }}></div>
-            ))}
-            </div>
-        </div>
-      
-        <div className="lower-wrap">
-            LOW-MAT
-            <div className="lower-select">
-              {bottomMaterials.map((data) => (
-              <div className="material-box" data-value={data.value} onClick={selectBottom} style={{ 
-                backgroundImage: `url(${data.value})` 
-              }}></div>
-            ))}
-            </div>
-        </div>
-        <div className="lower-wrap">
-            MARBLE-MAT
-            <div className="lower-select">
-              {marbleMaterials.map((data) => (
-              <div className="material-box" data-value={data.value} onClick={selectMarble} style={{ 
-                backgroundImage: `url(${data.value})` 
-              }}></div>
-            ))}
-            </div> */}
-        {/* </div> */}
-      
       </div>
     </div>
   );
