@@ -10,7 +10,8 @@ import { Mesh, TextureLoader } from "three"
 import Spotlight from "./spotlight";
 import { Stats, OrbitControls } from "@react-three/drei"
 import SelectSearch from 'react-select-search'
-import {Union, Subtract} from 'modeler-csg'
+import { Union, Subtract } from 'modeler-csg'
+import Map from "./map";
 import "./bedroom.css"
 
 
@@ -35,11 +36,54 @@ const Bedroom = (props) => {
   const [floorDepth, setFloorDepth] = useState(15)
   const [floorLengthStart, setFloorLengthStart] = useState(5)
   const [floorDepthStart, setFloorDepthStart] = useState(5)
+  const [innerLength, setInnerLength] = useState(10)
+  const [innerDepth, setInnerDepth] = useState(10)
+  const [isDragging, setIsDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [bedX, setBedX] = useState(0)
+  const [bedZ, setBedZ] = useState(0)
+
+  const childRef = useRef(null);
+  const parentRef = useRef(null);
+
+  const handleMouseDown = (event) => {
+    setIsDragging(true);
+    setOffset({
+      x: childRef.current.offsetLeft - event.clientX,
+      y: childRef.current.offsetTop - event.clientY
+    });
+  };
+
+  const handleMouseMove = (event) => {
+    if (isDragging) {
+      const parentRect = parentRef.current.getBoundingClientRect();
+  
+      // calculate the nearest grid cell based on the current mouse position
+      const cellWidth = parentRect.width / props.innerLength;
+      const cellHeight = parentRect.height / props.innerDepth;
+      const newLeft = Math.floor((event.clientX - parentRect.left) / cellWidth) * cellWidth;
+      const newTop = Math.floor((event.clientY - parentRect.top) / cellHeight) * cellHeight;
+  
+      // calculate the grid start and end positions for the child div based on the nearest grid cell
+      const columnStart = Math.floor(newLeft / cellWidth) + 1;
+      const columnEnd = columnStart + 1;
+      const rowStart = Math.floor(newTop / cellHeight) + 1;
+      const rowEnd = rowStart + 1;
+  
+      // set the child div's position to the nearest grid cell
+      childRef.current.style.gridRowStart = rowStart;
+      childRef.current.style.gridColumnStart = columnStart;
+      childRef.current.style.gridRowEnd = rowEnd;
+      childRef.current.style.gridColumnEnd = columnEnd;
+    }
+  };
+  
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
 
 
-useEffect(() => {
-  document.body.style.cursor = hovered ? 'pointer' : 'auto'
-}, [hovered])
+
   
   function handleShow() {
     if (toggler == true) {
@@ -70,16 +114,16 @@ useEffect(() => {
     let currentValue = divideLength(e.target.value, 1, 3)
     setKitchenLength(e.target.value)
     setCabinets(currentValue)
-    
     setFloorLength(parseInt(e.target.value / 2) + 11)
-    setFloorLengthStart(11 - parseInt(e.target.value / 2) )
-    // console.log(kitchenLength , cabinets)
+    setFloorLengthStart(11 - parseInt(e.target.value / 2))
+    setInnerLength(e.target.value)
   }
   function getDepth(e) {
     let currentValue = divideLength(e.target.value, 1, 3)
     setKitchenDepth(e.target.value)
     setFloorDepth(parseInt(e.target.value / 2) + 11)
-    setFloorDepthStart(11 - parseInt(e.target.value / 2) )
+    setFloorDepthStart(11 - parseInt(e.target.value / 2))
+    setInnerDepth(e.target.value)
   }
 
   function setIso() {
@@ -117,14 +161,15 @@ useEffect(() => {
       }
 
       meshRef.current.position.y = 1;
-      meshRef.current.position.x = 0;
+      meshRef.current.position.x = -kitchenLength/2 + 2 + bedX
+      meshRef.current.position.z = -kitchenDepth/2 + 3 + bedZ
       meshRef.current.receiveShadow = true;
       meshRef.current.castShadow = true;
 
     })
     return (
       <mesh ref={meshRef}>
-        <boxGeometry args={[4.5, 2, 6.5]} />
+        <boxGeometry args={[4, 2, 6]} />
         <meshStandardMaterial color="grey" />
       </mesh>
     )
@@ -240,10 +285,17 @@ useEffect(() => {
   //   console.log(e.target.dataset.value)
   //   setTableMaterial(e.target.dataset.value)
   // }
+  
+  
+  
   return (
     <div className="canvasContainer">
+         {/* gridColumnStart: props.floorLengthStart,
+        gridColumnEnd: props.floorLength,
+        gridRowStart: props.floorDepthStart,
+        gridRowEnd: props.floorDepth */}
     <Canvas  shadows camera={{ position: [cam, 6, 15], fov: 75 }}>
-      {/* <OrbitControls/> */}
+      <OrbitControls/>
       <KitchenFloor />
         <ambientLight intensity={.5} />
       <Bed/>
@@ -257,34 +309,33 @@ useEffect(() => {
       )}
 
       </Canvas>
-      <div className="modal-background" style={showModal} onClick={() => setShowModal({ display: "none" })}></div>
-      <div className="modal-container" style={showModal} >
-      <div className="modal" >
-        <Canvas shadows camera={{ position:[-6,3,6], fov: 75 }}>
-            {currentDisplay}
-            <ambientLight intensity={5} />
-            <OrbitControls/>
-        </Canvas>
-        </div>
-        <div className="modal-description">
-          <div>
-          {furniture}
-          </div>
-          <div>
-          {description}
-          </div>
-        </div>
-      </div>
+
+    
       <div className="menu-button" onClick={handleShow}></div>
       <div className="edit-container" style={slideIn}>
-        <div className="map-wrap">
+      <Map
+        innerLength={innerLength}
+        innerDepth={innerDepth}
+        floorLengthStart={floorLengthStart}
+        floorLength={floorLength}
+        floorDepthStart={floorDepthStart}
+        floorDepth={floorDepth}
+        setBedX={setBedX}
+        setBedZ={setBedZ}
+      />
+
+        {/* <div className="map-wrap">
           <div className="floor-plan" style={{
-    gridColumnStart: floorLengthStart,
-    gridColumnEnd: floorLength,
-    gridRowStart: floorDepthStart,
-    gridRowEnd: floorDepth
-  }}></div>
+              gridTemplateColumns: `repeat(${innerLength}, 1fr)`,
+              gridTemplateRows: `repeat(${innerDepth}, 1fr)`,
+              gridColumnStart: floorLengthStart,
+              gridColumnEnd: floorLength,
+              gridRowStart: floorDepthStart,
+              gridRowEnd: floorDepth
+          }}>
+            <div>child</div>
         </div>
+        </div> */}
       <div className="upper-wrap">
         Length: {kitchenLength} ft.
         <input id="length" step="2" type="range" min="10" max="20" defaultValue="6" onInput={getValue} />
