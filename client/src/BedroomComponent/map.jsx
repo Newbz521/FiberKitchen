@@ -85,7 +85,8 @@ function Map(props) {
           >
         DRAG ME
       
-      </div>
+          </div>
+          
       </div>
       </div>
      

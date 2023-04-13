@@ -159,7 +159,7 @@ const Bedroom = (props) => {
       if (!meshRef.current) {
         return;
       }
-
+      // meshRef.current.rotation.y = -0.5 * Math.PI;
       meshRef.current.position.y = 1;
       meshRef.current.position.x = -kitchenLength/2 + 2 + bedX
       meshRef.current.position.z = -kitchenDepth/2 + 3 + bedZ
