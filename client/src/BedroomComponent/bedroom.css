@@ -5,15 +5,18 @@
   /* border: 5px solid blue; */
   grid-template-columns: repeat(20, 1fr);
   grid-template-rows: repeat(20, 1fr);
+  background-color: #f7f3ee;
   /* position:absolute; */
   /* grid-gap: 1em; */
+  /* overflow: hidden; */
+  margin-top: 3vw;
 }
 .floor-plan{
-  outline: 1vw solid rgb(112, 112, 112);
+  outline: 1vw solid black;
   display: grid;
   background-color: white;
   box-shadow: inset 0px 0px 5px 1px rgb(124, 123, 123);
-  
+  position: absolute;
 }
 
 .grid {
@@ -23,11 +26,12 @@
   width: 30vw;
   height: 30vw; */
   /* position: absolute; */
-  outline: 1vw solid rgb(112, 112, 112);
+  outline: .5vw solid rgb(112, 112, 112);
   display: grid;
-  background-color: white;
+  /* background-color: white; */
   box-shadow: inset 0px 0px 5px 1px rgb(124, 123, 123);
   z-index: 10; 
+  background-color: white;
 }
 
 .child {
@@ -39,12 +43,14 @@
   align-items: center;
   color: rgb(72, 72, 72);
   
-  background-image: url("https://images.furnituredealer.net/img/RoomPlanner/ObjectIcons/Bedroom_HeaderAndFooterBed.png");
+  /* background-image: url("https://images.furnituredealer.net/img/RoomPlanner/ObjectIcons/Bedroom_HeaderAndFooterBed.png"); */
   background-size: cover;
   background-position: center;
   /* transform: rotate(90deg); */
   filter: drop-shadow(0 0 .25vw grey);
 }
+
+
 .child:hover{
 cursor:grab;
 }

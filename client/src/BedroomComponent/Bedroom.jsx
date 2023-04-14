@@ -11,6 +11,8 @@ import Spotlight from "./spotlight";
 import { Stats, OrbitControls } from "@react-three/drei"
 import SelectSearch from 'react-select-search'
 import { Union, Subtract } from 'modeler-csg'
+import BedVertical from "./BedVertical.png"
+import BedHorizontal from "./BedHorizontal.png"
 import Map from "./map";
 import "./bedroom.css"
 
@@ -42,6 +44,42 @@ const Bedroom = (props) => {
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [bedX, setBedX] = useState(0)
   const [bedZ, setBedZ] = useState(0)
+  const [planColStart, setPlanColStart] = useState(1)
+  const [planColEnd, setPlanColEnd] = useState(5)
+  const [planRowStart, setPlanRowStart] = useState(1)
+  const [planRowEnd, setPlanRowEnd] = useState(7)
+  const [newCol,setNewCol] = useState(4)
+  const [newRow, setNewRow] = useState(6)
+  const [rotated, setRotated] = useState(false)
+  const [meshBedRotate, setMeshBedRotate] = useState(0)
+  const [meshBedX, setMeshBedX] = useState(2)
+  const [meshBedY, setMeshBedY] = useState(3)
+  const [bedImage, setBedImage] = useState(BedVertical)
+  
+  function rotateBed(){
+    if (rotated == true) {
+      // setShow("");
+      setPlanColEnd(5)
+      setPlanRowEnd(7)
+      setNewCol(4)
+      setNewRow(6)
+      setMeshBedX(2)
+      setMeshBedY(3)
+      setMeshBedRotate(0)
+      setBedImage(BedVertical)
+    } else {
+      setPlanColEnd(7)
+      setPlanRowEnd(5)
+      setNewCol(6)
+      setNewRow(4)
+      setMeshBedX(3)
+      setMeshBedY(2)
+      setMeshBedRotate((-0.5 * Math.PI))
+      setBedImage(BedHorizontal)
+    }
+    setRotated((prevCheck) => !prevCheck);
+  }
+
 
   const childRef = useRef(null);
   const parentRef = useRef(null);
@@ -81,10 +119,7 @@ const Bedroom = (props) => {
   const handleMouseUp = () => {
     setIsDragging(false);
   };
-
-
-
-  
+ 
   function handleShow() {
     if (toggler == true) {
       // setShow("");
@@ -159,10 +194,10 @@ const Bedroom = (props) => {
       if (!meshRef.current) {
         return;
       }
-      // meshRef.current.rotation.y = -0.5 * Math.PI;
+      meshRef.current.rotation.y = meshBedRotate;
       meshRef.current.position.y = 1;
-      meshRef.current.position.x = -kitchenLength/2 + 2 + bedX
-      meshRef.current.position.z = -kitchenDepth/2 + 3 + bedZ
+      meshRef.current.position.x = -kitchenLength/2 + meshBedX + bedX
+      meshRef.current.position.z = -kitchenDepth/2 + meshBedY + bedZ
       meshRef.current.receiveShadow = true;
       meshRef.current.castShadow = true;
 
@@ -285,7 +320,7 @@ const Bedroom = (props) => {
   //   console.log(e.target.dataset.value)
   //   setTableMaterial(e.target.dataset.value)
   // }
-  
+
   
   
   return (
@@ -322,8 +357,15 @@ const Bedroom = (props) => {
         floorDepth={floorDepth}
         setBedX={setBedX}
         setBedZ={setBedZ}
+          planColStart={planColStart}  
+          planColEnd={planColEnd}
+          planRowStart={planRowStart}
+          planRowEnd={planRowEnd}
+          newCol={newCol}
+          newRow={newRow}
+          background={bedImage}
       />
-
+        <div style={{backgroundImage:`url('https://cdn3.iconfinder.com/data/icons/virtual-notebook/16/button_rotate-512.png')`, backgroundSize: "cover", width: '50px', height: '50px', zIndex: "5"}} onClick={rotateBed}>Rotate Bed</div>
         {/* <div className="map-wrap">
           <div className="floor-plan" style={{
               gridTemplateColumns: `repeat(${innerLength}, 1fr)`,

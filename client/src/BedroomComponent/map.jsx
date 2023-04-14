@@ -1,9 +1,10 @@
-import { useState, useRef } from 'react';
+import { useState, useRef , useEffect} from 'react';
 import "./bedroom.css"
 
 function Map(props) {
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [boxes,setBoxes] = useState([])
 
   const childRef = useRef(null);
   const parentRef = useRef(null);
@@ -29,9 +30,9 @@ function Map(props) {
   
       // calculate the grid start and end positions for the child div based on the nearest grid cell
       const columnStart = Math.floor(newLeft / cellWidth) ;
-      const columnEnd = columnStart + 4;
+      const columnEnd = columnStart + props.newCol;
       const rowStart = Math.floor(newTop / cellHeight) ;
-      const rowEnd = rowStart + 6;
+      const rowEnd = rowStart + props.newRow;
   
       // set the child div's position to the nearest grid cell
       childRef.current.style.gridRowStart = rowStart;
@@ -50,10 +51,42 @@ function Map(props) {
   const handleMouseUp = () => {
     setIsDragging(false);
   };
- 
+  
+  let gridLines = [];
+  useEffect(() => {
+    gridLines = []
+    for (let i = 0; i < 20; i++){
+      for (let j = 0; j < 20; j++){
+  
+        gridLines.push(j)
+      }
+    }
+    gridLines.length = 400 - (props.innerLength * props.innerDepth)
+    setBoxes(gridLines)
+
+  },[props.innerLength, props.innerDepth])
+  // let gridLines = new Array()
+  // gridLines = []
+  // for (let i = 0; i < 20; i++){
+  //   for (let j = 0; j < 20; j++){
+
+  //     gridLines.push(j)
+  //   }
+  // }
+  
+
   return (
     <>
-    <div className="map-wrap">
+      <div className="map-wrap">
+        {boxes.map((index) => (<div style={{
+          // position: "fixed",
+          border: ".5px solid lightgrey",
+          // gridColumnStart: index + 1,
+          // gridColumnEnd: index + 2,
+          // gridRowStart: index + 1,
+          // gridRowEnd: index + 2,
+          // zIndex: "15"
+        }}></div>))}
     <div
       ref={parentRef}
       className="grid"
@@ -72,18 +105,20 @@ function Map(props) {
       <div
         ref={childRef}
         className="child"
-        onMouseDown={handleMouseDown}
+            onMouseDown={handleMouseDown}
+           
             style={{
               position: "relative",
               width: `${100} %`,
               height: `${100} %`,
-              gridRowStart:1,
-              gridRowEnd: 7,
-              gridColumnStart: 1,
-              gridColumnEnd: 5,
+              gridColumnStart: props.planColStart,
+              gridColumnEnd: props.planColEnd,
+              gridRowStart: props.planRowStart,
+              gridRowEnd: props.planRowEnd,
+              backgroundImage: `url(${props.background})`
             }}
           >
-        DRAG ME
+            {/* <div  style={{ height: "100%", width: "100%",backgroundImage: `url(${props.background})` }} ></div> */}
       
           </div>
           
