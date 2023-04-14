@@ -55,4 +55,13 @@
 cursor:grab;
 }
 
+@media only screen and (max-width: 480px){
+
+
+  .map-wrap{
+    width: 95vw;
+    height: 95vw;
+  }
+}
+
 

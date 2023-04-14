@@ -43,7 +43,7 @@ const KitchenScene = (props) => {
   const materials = [{name:"LK55", value: LK55H},{name:"Oak Wood", value: WengeVertical},{name:"Spicy Cherry", value: CherryWood}, {name:"White Wood", value: WhiteWood}];
   const bottomMaterials = [{name:"LK55", value: LK55HLong},{name:"Oak Wood", value: Wenge},{name:"Spicy Cherry", value: CherryWoodLong}, {name:"White Wood", value: WhiteWoodLong}];
   const marbleMaterials = [{name:"Dark Marble", value: DarkMarble},{name:"White Marble", value: Marble},{name:"Marble-2", value: MarbleTwo}];
-  const [slideIn, setSlideIn] = useState({ transform: "translate(-60vw, 0%)" });
+  const [slideIn, setSlideIn] = useState({ transform: "translate(-100vw, 0%)" });
   const [toggler, setToggler] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [currentDisplay, setCurrentDisplay] = useState(null)
@@ -60,7 +60,7 @@ useEffect(() => {
   function handleShow() {
     if (toggler == true) {
       // setShow("");
-      setSlideIn({ transform: "translate(-60vw, 0%)" });
+      setSlideIn({ transform: "translate(-100vw, 0%)" });
     } else {
       setSlideIn({ transform: "translate(0%, 0%)" });
     }

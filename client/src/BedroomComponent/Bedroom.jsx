@@ -26,7 +26,7 @@ const Bedroom = (props) => {
   const [staticIso, setStaticIso] = useState(false)
   const [cam, setCam] = useState(-13)
   let bottomLength =  (kitchenLength - 2) - 1.5/12
-  const [slideIn, setSlideIn] = useState({ transform: "translate(-60vw, 0%)" });
+  const [slideIn, setSlideIn] = useState({ transform: "translate(-100vw, 0%)" });
   const [toggler, setToggler] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [currentDisplay, setCurrentDisplay] = useState(null)
@@ -123,7 +123,7 @@ const Bedroom = (props) => {
   function handleShow() {
     if (toggler == true) {
       // setShow("");
-      setSlideIn({ transform: "translate(-60vw, 0%)" });
+      setSlideIn({ transform: "translate(-100vw, 0%)" });
     } else {
       setSlideIn({ transform: "translate(0%, 0%)" });
     }
