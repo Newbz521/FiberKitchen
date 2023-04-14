@@ -12,7 +12,7 @@
   margin-top: 3vw;
 }
 .floor-plan{
-  outline: 1vw solid black;
+  outline: 5vh solid black;
   display: grid;
   background-color: white;
   box-shadow: inset 0px 0px 5px 1px rgb(124, 123, 123);
@@ -26,7 +26,7 @@
   width: 30vw;
   height: 30vw; */
   /* position: absolute; */
-  outline: .5vw solid rgb(112, 112, 112);
+  outline: .75vw solid rgb(112, 112, 112);
   display: grid;
   /* background-color: white; */
   box-shadow: inset 0px 0px 5px 1px rgb(124, 123, 123);
@@ -47,7 +47,7 @@
   background-size: cover;
   background-position: center;
   /* transform: rotate(90deg); */
-  filter: drop-shadow(0 0 .25vw grey);
+  filter: drop-shadow(0 0 .75vw grey);
   transition: all 1s;
 }
 
@@ -62,6 +62,9 @@ cursor:grab;
   .map-wrap{
     width: 95vw;
     height: 95vw;
+  }
+  .grid{
+    outline: 1vh solid rgb(78, 77, 77);
   }
 }
 
