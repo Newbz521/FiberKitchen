@@ -21,12 +21,19 @@ function Map(props) {
   const handleMouseMove = (event) => {
     if (isDragging) {
       const parentRect = parentRef.current.getBoundingClientRect();
-  
+      let newLeft, newTop;
+      if (event.type === "touchmove") {
+        newLeft = event.touches[0].clientX - parentRect.left;
+        newTop = event.touches[0].clientY - parentRect.top;
+      } else {
+        newLeft = event.clientX - parentRect.left;
+        newTop = event.clientY - parentRect.top;
+      }
       // calculate the nearest grid cell based on the current mouse position
       const cellWidth = parentRect.width / props.innerLength;
       const cellHeight = parentRect.height / props.innerDepth;
-      const newLeft = Math.floor((event.clientX - parentRect.left) / cellWidth) * cellWidth;
-      const newTop = Math.floor((event.clientY - parentRect.top) / cellHeight) * cellHeight;
+      // const newLeft = Math.floor((event.clientX - parentRect.left) / cellWidth) * cellWidth;
+      // const newTop = Math.floor((event.clientY - parentRect.top) / cellHeight) * cellHeight;
   
       // calculate the grid start and end positions for the child div based on the nearest grid cell
       const columnStart = Math.floor(newLeft / cellWidth) ;
@@ -49,6 +56,16 @@ function Map(props) {
   
 
   const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleTouchStart = (event) => {
+    setIsDragging(true);
+
+    // prevent scrolling on touch devices
+    event.preventDefault();
+  };
+  const handleTouchEnd = () => {
     setIsDragging(false);
   };
   
@@ -90,9 +107,10 @@ function Map(props) {
     <div
       ref={parentRef}
       className="grid"
-      onMouseMove={handleMouseMove}
+          onMouseMove={handleMouseMove}
+          onTouchMove={handleMouseMove}
           onMouseUp={handleMouseUp}
-          
+          onTouchEnd={handleTouchEnd}
       style={{
         gridTemplateColumns: `repeat(${props.innerLength}, 1fr)`,
         gridTemplateRows: `repeat(${props.innerDepth}, 1fr)`,
@@ -106,7 +124,7 @@ function Map(props) {
         ref={childRef}
         className="child"
             onMouseDown={handleMouseDown}
-           
+            onTouchStart={handleTouchStart}
             style={{
               position: "relative",
               width: `${100} %`,
